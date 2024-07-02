@@ -38,4 +38,4 @@ jobs:
             --expiry $end \
             --output tsv \
             --permissions r)
-          Write-Host '$token'
+          echo "SAS token: $token"
