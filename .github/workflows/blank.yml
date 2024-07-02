@@ -40,6 +40,11 @@ jobs:
             --permissions r)
           echo "token=$token" >> $GITHUB_ENV
           echo "SAS token: $token"
-    - name: Use SAS Token
+    - name: Construct Blob URL with SAS Token
       run: |
-          echo "SAS token is ${{ env.token }}"
+          blob_url="https://blobsastokengpk.blob.core.windows.net/test-container/test.txt?${{ env.token }}"
+          echo "blob_url=$blob_url" >> $GITHUB_ENV
+          echo "Blob URL with SAS token: $blob_url"
+    - name: Use Blob URL
+      run: |
+          echo "Blob URL is ${{ env.blob_url }}"
