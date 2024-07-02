@@ -25,3 +25,17 @@ jobs:
         azcliversion: latest
         inlineScript: |
           az account show
+    - name: generate sas token for infrastructure storage account
+      id: sas_token
+      run: |
+          end=`date -u -d "5 minutes" '+%Y-%m-%dT%H:%MZ'`
+          token=$(az storage container generate-sas \
+            --subscription d7a7d108-a259-43c6-8a4c-bfc867f9eb69 \
+            --name 'test-container' \
+            --account-name 'blobsastokengpk' \
+            --as-user \
+            --auth-mode login \
+            --expiry $end \
+            --output tsv \
+            --permissions r)
+          Write-Host '$token'
