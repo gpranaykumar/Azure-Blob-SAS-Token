@@ -27,7 +27,7 @@ jobs:
           az account show
     - name: generate sas token for infrastructure storage account
       id: sas_token
-      shell: pwsh
+      shell: bash
       run: |
           end=`date -u -d "5 minutes" '+%Y-%m-%dT%H:%MZ'`
           token=$(az storage container generate-sas \
