@@ -27,25 +27,29 @@ jobs:
           az account show
     - name: generate sas token for infrastructure storage account
       id: sas_token
-      shell: bash
+      shell: pwsh
       run: |
-          end=`date -u -d "5 minutes" '+%Y-%m-%dT%H:%MZ'`
-          token=$(az storage container generate-sas \
-            --subscription d7a7d108-a259-43c6-8a4c-bfc867f9eb69 \
-            --name 'test-container' \
-            --account-name 'blobsastokengpk' \
-            --as-user \
-            --auth-mode login \
-            --expiry $end \
-            --output tsv \
-            --permissions r)
-          echo "token=$token" >> $GITHUB_ENV
-          echo "SAS token: $token"
+          $end = (Get-Date).AddMinutes(5).ToUniversalTime().ToString("yyyy-MM-ddTHH:mmZ")
+          $token = az storage container generate-sas `
+            --subscription d7a7d108-a259-43c6-8a4c-bfc867f9eb69 `
+            --name 'test-container' `
+            --account-name 'blobsastokengpk' `
+            --as-user `
+            --auth-mode login `
+            --expiry $end `
+            --output tsv `
+            --permissions r
+          echo "token=$token" | Out-File -FilePath $env:GITHUB_ENV -Append
+          Write-Host "SAS token: $token"
+
     - name: Construct Blob URL with SAS Token
+      shell: pwsh
       run: |
-          blob_url="https://blobsastokengpk.blob.core.windows.net/test-container/test.txt?${{ env.token }}"
-          echo "blob_url=$blob_url" >> $GITHUB_ENV
-          echo "Blob URL with SAS token: $blob_url"
+          $blob_url = "https://blobsastokengpk.blob.core.windows.net/test-container/test.txt?$($env:token)"
+          echo "blob_url=$blob_url" | Out-File -FilePath $env:GITHUB_ENV -Append
+          Write-Host "Blob URL with SAS token: $blob_url"
+
     - name: Use Blob URL
+      shell: pwsh
       run: |
-          echo "Blob URL is ${{ env.blob_url }}"
+          Write-Host "Blob URL is $env:blob_url"
