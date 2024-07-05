@@ -38,7 +38,8 @@ jobs:
             --auth-mode login `
             --expiry $end `
             --output tsv `
-            --permissions r
+            --permissions r `
+            --debug
           echo "token=$token" | Out-File -FilePath $env:GITHUB_ENV -Append
           Write-Host "SAS token: $token"
 
