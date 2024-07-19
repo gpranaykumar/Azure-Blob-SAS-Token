@@ -1,0 +1,30 @@
+name: List Azure Role Assignments
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  list-role-assignments:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: List role assignments for the logged-in user
+      id: list-assignments
+      run: |
+        objectId=$(az ad signed-in-user show --query objectId -o tsv)
+        echo "Logged-in user Object ID: $objectId"
+        az role assignment list --assignee $objectId -o table
+
+    - name: Display role assignments
+      run: |
+        echo "Role assignments for the logged-in user:"
+        echo "${{ steps.list-assignments.outputs.result }}"
