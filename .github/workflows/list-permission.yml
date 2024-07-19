@@ -20,11 +20,5 @@ jobs:
     - name: List role assignments for the logged-in user
       shell: pwsh
       run: |
-        # Retrieve Service Principal Object ID
-        $spObjectId = az ad sp show --id $(az account show --query user.name -o tsv) --query objectId --output tsv
-        Write-Host "Service Principal Object ID: $spObjectId"
-        
-        # List role assignments for the Service Principal
-        $roleAssignments = az role assignment list --assignee $spObjectId --output table
-        Write-Host "Role assignments for the Service Principal:"
-        Write-Host $roleAssignments
+         $roleAssignments = az role assignment list --all | ConvertFrom-Json
+         $roleAssignments | Format-Table -AutoSize
