@@ -17,8 +17,15 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: List role assignments for the logged-in user
+    - name: List role assignments for the logged-in service principal
       shell: pwsh
       run: |
-         $roleAssignments = az role assignment list --all | ConvertFrom-Json
-         $roleAssignments | Select-Object -Property principalName, roleDefinitionName, scope, createdBy, createdOn | Format-Table -AutoSize
+        # Get the Service Principal ID of the logged-in user
+        $spId = az ad signed-in-user show --query id -o tsv
+
+        # List role assignments and filter for the logged-in Service Principal ID
+        $roleAssignments = az role assignment list --all | ConvertFrom-Json
+        $filteredAssignments = $roleAssignments | Where-Object { $_.principalId -eq $spId }
+
+        # Display the filtered role assignments
+        $filteredAssignments | Select-Object -Property principalName, roleDefinitionName, scope, createdBy, createdOn | Format-Table -AutoSize
