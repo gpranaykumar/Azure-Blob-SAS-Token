@@ -20,9 +20,9 @@ jobs:
     - name: List role assignments for the logged-in service principal
       shell: pwsh
       run: |
-        # Get the Service Principal ID of the logged-in user
-        $spId = az ad signed-in-user show --query id -o tsv
-
+        # Get the Service Principal ID of the logged-in service principal
+        $spId = az ad sp show --id $env:AZURE_CLIENT_ID --query appId -o tsv
+        
         # List role assignments and filter for the logged-in Service Principal ID
         $roleAssignments = az role assignment list --all | ConvertFrom-Json
         $filteredAssignments = $roleAssignments | Where-Object { $_.principalId -eq $spId }
