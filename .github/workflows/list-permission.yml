@@ -21,4 +21,4 @@ jobs:
       shell: pwsh
       run: |
          $roleAssignments = az role assignment list --all | ConvertFrom-Json
-         $roleAssignments | Format-Table -AutoSize
+         $roleAssignments | Select-Object -Property principalName, roleDefinitionName, scope, createdBy, createdOn | Format-Table -AutoSize
