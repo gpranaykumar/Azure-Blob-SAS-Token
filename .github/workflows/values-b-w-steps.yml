@@ -13,7 +13,7 @@ jobs:
     - name: Get current date and time
       id: get_datetime
       shell: pwsh
-      run: echo "datetime=$(date)" >> $GITHUB_ENV
+      run: echo "datetime=$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" >> $env:GITHUB_ENV
 
     - name: Use the shared value
       shell: pwsh
