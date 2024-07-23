@@ -17,4 +17,5 @@ jobs:
 
     - name: Use the shared value
       shell: pwsh
-      run: echo "The current date and time is ${{ env.datetime }}"
+      run: echo "The current date and time is $env:datetime "
+ 
