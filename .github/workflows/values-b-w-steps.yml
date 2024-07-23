@@ -12,7 +12,9 @@ jobs:
 
     - name: Get current date and time
       id: get_datetime
+      shell: pwsh
       run: echo "datetime=$(date)" >> $GITHUB_ENV
 
     - name: Use the shared value
+      shell: pwsh
       run: echo "The current date and time is ${{ env.datetime }}"
