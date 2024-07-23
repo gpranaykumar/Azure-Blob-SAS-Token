@@ -1,0 +1,18 @@
+name: Pass Values b/w steps
+on:
+  workflow_dispatch
+
+jobs:
+  example_job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Get current date and time
+      id: get_datetime
+      run: echo "datetime=$(date)" >> $GITHUB_ENV
+
+    - name: Use the shared value
+      run: echo "The current date and time is ${{ env.datetime }}"
