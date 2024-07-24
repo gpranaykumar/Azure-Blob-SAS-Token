@@ -1,9 +1,7 @@
 name: List Azure Role Assignments
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   list-role-assignments:
