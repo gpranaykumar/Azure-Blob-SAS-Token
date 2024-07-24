@@ -25,3 +25,9 @@ jobs:
       run: echo "The current date and time is $env:datetime"
       env:
         datetime: 'GPK?${{ steps.get_datetime.outputs.datetime }}'
+
+    - name: Echo Shared Value
+      shell: pwsh
+      run: |
+          Write-Host "Value: ?${{steps.get_datetime.outputs.datetime}}"
+          
