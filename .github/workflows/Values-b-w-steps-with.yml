@@ -16,7 +16,8 @@ jobs:
       run: |
         $datetime = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
         # echo "datetime=$datetime" >> $env:GITHUB_ENV
-        echo "::set-output name=datetime::$datetime"
+        echo "datetime=$datetime" >> $GITHUB_OUTPUT
+        # echo "::set-output name=datetime::$datetime"
 
     - name: Use the shared value
       shell: pwsh
