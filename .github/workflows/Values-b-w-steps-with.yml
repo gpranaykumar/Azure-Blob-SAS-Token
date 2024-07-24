@@ -24,4 +24,4 @@ jobs:
       shell: pwsh
       run: echo "The current date and time is $env:datetime"
       env:
-        datetime: ${{ steps.get_datetime.outputs.datetime }}
+        datetime: 'GPK: ${{ steps.get_datetime.outputs.datetime }}'
