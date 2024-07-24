@@ -1,6 +1,7 @@
-name: Pass Values b/w steps
+name: set steps output
 on:
   workflow_dispatch
+  
 
 jobs:
   example_job:
@@ -16,7 +17,7 @@ jobs:
       run: |
         $datetime = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
         # echo "datetime=$datetime" >> $env:GITHUB_ENV
-        echo "datetime=$datetime" >> $GITHUB_OUTPUT
+        echo "{datetime}={$datetime}" >> $GITHUB_OUTPUT
         # echo "::set-output name=datetime::$datetime"
 
     - name: Use the shared value
